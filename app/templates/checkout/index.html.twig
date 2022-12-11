@@ -10,10 +10,27 @@
 
 <div class="example-wrapper">
     <h1>Checkouts</h1>
-
     <div>
-        <h3>{{ checkout.status }}</h3>
-        <p>Adresse de livraison : {{ checkout.shippingAddress }}</p>
+        <ul>
+            {# les boucles 'for' s'écrivent toujours "for element in list" #}
+            {# https://twig.symfony.com/doc/2.x/tags/for.html #}
+            {% for checkout in checkouts %}
+                <li>
+                    <h2>commande n°: {{ checkout.checkout.id }}</h2>
+                    <p>Status : {{checkout.checkout.status}}</p>
+                    <p>Adresse : {{checkout.checkout.shippingAddress}}</p>
+                    <div>
+                        <p>Produit : {{checkout.product.name}}</p>
+                        <p>Prix : {{checkout.product.price}}</p>
+                    </div>
+                    {# <img src="{{oneProduct.imageLink}}"/ width=300 height=auto>
+                    <p>{{ oneProduct.description }}</p>
+                    <p>{{ oneProduct.price }}€ (disponible: {{ oneProduct.stock }} unités)</p>
+                    <a href="/checkout/create/{{oneProduct.id}}">Acheter</a> #}
+                </li>
+            {# on ferme la boucle avec "endfor" #}
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}
