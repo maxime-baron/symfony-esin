@@ -9,11 +9,10 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Checkouts</h1>
+    <h1>{{product.name}}</h1>
 
-    <div>
-        <h3>{{ checkout.status }}</h3>
-        <p>Adresse de livraison : {{ checkout.shippingAddress }}</p>
-    </div>
+    {# on appelle la fonciton twig "form", et on lui passe la variable "form" #}
+    {# twig se charge de tout l'affichage #}
+    {{ form(form) }}
 </div>
 {% endblock %}

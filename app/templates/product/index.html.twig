@@ -20,7 +20,8 @@
                     <h2>{{ oneProduct.name }}</h2>
                     <img src="{{oneProduct.imageLink}}"/ width=300 height=auto>
                     <p>{{ oneProduct.description }}</p>
-                    <p>{{ oneProduct.price }} (disponible: {{ oneProduct.stock }} unités)</p>
+                    <p>{{ oneProduct.price }}€ (disponible: {{ oneProduct.stock }} unités)</p>
+                    <a href="/checkout/create/{{oneProduct.id}}">Acheter</a>
                 </li>
             {# on ferme la boucle avec "endfor" #}
             {% endfor %}

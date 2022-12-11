@@ -12,9 +12,11 @@ class IndexController extends AbstractController
     public function index(): Response
     {
         $number = random_int(0, 100);
+        $numberHight = random_int(100,200);
 
         return $this->render('index/index.html.twig', [
             'number' => $number,
+            'numberHight' => $numberHight
         ]);
     }
 }

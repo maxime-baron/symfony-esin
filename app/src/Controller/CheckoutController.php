@@ -22,7 +22,7 @@ class CheckoutController extends AbstractController
         ]);
     }
 
-    #[Route('/checkout/create', name: 'app_checkout_create')]
+    #[Route('/checkout/create/{productId}', name: 'app_checkout_create')]
     /**
      * Quand on l'appelle, elle crée un panier avec un ensemble d'articles
      * et le sauvegarde en base de données
@@ -30,7 +30,7 @@ class CheckoutController extends AbstractController
      * pour conserver en mémoire le panier actif
      */
     // @todo: tester
-    public function create(Request $request, ManagerRegistry $doctrine, ProductRepository $productRepository): Response
+    public function create(Request $request, ManagerRegistry $doctrine, ProductRepository $productRepository, string $productId): Response
     {
         // réceptacle pour le contenu de mon formulaire
         $checkoutCreationData = [];
@@ -39,6 +39,7 @@ class CheckoutController extends AbstractController
         $form = $this->createForm(CheckoutCreateType::class, $checkoutCreationData);
 
         $form->handleRequest($request);
+        $product = $productRepository->find($productId);
         if ($form->isSubmitted() && $form->isValid()) {
             $checkoutCreationData = $form->getData();
 
@@ -48,11 +49,12 @@ class CheckoutController extends AbstractController
 
             $checkout = new Checkout();
             $checkout->setStatus('NEW');
+            $checkout->setShippingAddress($checkoutCreationData['shipping_adress']);
             $entityManager->persist($checkout);
 
             $checkoutProduct = new CheckoutProduct();
 
-            $product = $productRepository->find($checkoutCreationData['product_id']);
+
             $checkoutProduct->setCheckout($checkout);
             $checkoutProduct->setProduct($product);
             $checkoutProduct->setQuantity($checkoutCreationData['quantity']);
@@ -65,6 +67,8 @@ class CheckoutController extends AbstractController
 
         return $this->render('checkout/index.html.twig', [
             'controller_name' => 'CheckoutController',
+            'form' => $form->createView(),
+            'product' => $product
         ]);
     }
 
